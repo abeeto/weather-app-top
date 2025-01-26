@@ -4,9 +4,9 @@ async function askForLocation() {
   return location.toLowerCase();
 }
 
-function todayWeatherByLocation(location) {
+function weekWeatherByLocation(location) {
   const weather = fetch(
-    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/today?unitGroup=metric&include=days&key=PASBFSBRA5EJCPXZ6VTEC7FNB&contentType=json`,
+    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/next7days?unitGroup=metric&include=days&key=PASBFSBRA5EJCPXZ6VTEC7FNB&contentType=json`,
     { mode: "cors" },
   )
     .then((resp) => resp.json())
@@ -15,4 +15,4 @@ function todayWeatherByLocation(location) {
   return weather;
 }
 
-export { askForLocation, todayWeatherByLocation };
+export { askForLocation, weekWeatherByLocation };
