@@ -1,3 +1,7 @@
 import "./styles.css";
+import { askForLocation, todayWeatherByLocation } from "./weatherByLocation";
 
-console.log("Hi! This is the entry point for the bundler");
+askForLocation()
+  .then((location) => todayWeatherByLocation(location))
+  // eslint-disable-next-line no-console
+  .then((weatherResp) => console.log(weatherResp));
