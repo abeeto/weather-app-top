@@ -15,22 +15,40 @@ async function createWeatherForecast(location) {
   return newForecast;
 }
 
-function createTodayDisplay(forecast) {
+function populateTodayDisplay(forecast) {
   const weatherDay = forecast.currentDay;
-  const newTodayDisplay = document.createElement("div");
-  newTodayDisplay.className = "today-weather-wrapper";
+  const newTodayDisplay = document.querySelector(".today-weather-wrapper");
   newTodayDisplay.innerHTML = `  
+  <div class="weather-date">${weatherDay.date}</div>
   <div class="city-name">${forecast.locationName}</div>
   <div class="weather-desc">${weatherDay.description}</div>
-  <div class="weather-date">${weatherDay.date}</div>
-  <div class="weather-icon">${weatherDay.icon} 
-  </div>
-  <div class="temp-wrapper">
-      <div class="actual-temp">${weatherDay.temp}</div>
-      <div class="feelslike-temp">${weatherDay.feelslike}</div>
+  <div class="weather-info-wrapper">
+    <div class="weather-icon">${weatherDay.icon}</div>
+    <div class="temp-wrapper">
+        <div class="actual-temp">${weatherDay.temp}</div>
+        <div class="feelslike-temp">${weatherDay.feelslike}</div>
+    </div>
   </div>
 </div>`;
-  document.querySelector("body").appendChild(newTodayDisplay);
+}
+
+function populateWeeklyDisplay(weekDays) {
+  const singleDaysWrappers = document.querySelectorAll(".single-day");
+  singleDaysWrappers.forEach((singleDayWrapper, index) => {
+    const weatherDay = weekDays[index];
+    // eslint-disable-next-line no-param-reassign
+    singleDayWrapper.innerHTML = `  
+  <div class="weather-date">${weatherDay.date}</div>
+  <div class="weather-desc">${weatherDay.conditions}</div>
+  <div class="weather-info-wrapper">
+    <div class="weather-icon">${weatherDay.icon}</div>
+    <div class="temp-wrapper">
+        <div class="actual-temp">${weatherDay.temp}</div>
+        <div class="feelslike-temp">${weatherDay.feelslike}</div>
+    </div>
+  </div>
+</div>`;
+  });
 }
 
 const locationSearchSubmit = document.querySelector("#location-form-submit");
@@ -40,8 +58,9 @@ locationSearchSubmit.addEventListener("click", (e) => {
   const location = getLocationSearch();
   createWeatherForecast(location)
     .then((newForecast) => {
-      searchStatusLabel.textContent = "FOUND!";
-      createTodayDisplay(newForecast);
+      searchStatusLabel.textContent = "";
+      populateTodayDisplay(newForecast);
+      populateWeeklyDisplay(newForecast.next7days);
       return newForecast;
     })
     .catch((err) => {

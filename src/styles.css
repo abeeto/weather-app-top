@@ -48,3 +48,47 @@ h2 {
 h3,h4,h5,h6 {
     font-size: var(--step-3);
 }
+
+.layout-wrapper {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 20px;
+}
+
+.next-seven-days-wrapper {
+    display: flex;
+    grid-row-start: 2;
+}
+
+.today-weather-wrapper {
+    padding: 1rem;
+    background-color: whitesmoke;
+    border-radius: 8px;
+}
+
+.today-weather-wrapper .weather-date {
+    font-size: var(--step--2);
+}
+.today-weather-wrapper .city-name {
+    font-size: var(--step-1);
+}
+.today-weather-wrapper .weather-desc {
+    font-size: var(--step--1);
+}
+.today-weather-wrapper .weather-info-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.today-weather-wrapper .temp-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.today-weather-wrapper .actual-temp {
+    font-size: var(--step-2);
+}
+.today-weather-wrapper .feelslike-temp {
+    font-size: var(--step--1);
+}
