@@ -8,9 +8,11 @@ const weatherResp = await weekWeatherByLocation(location);
 const newForecast = new LocationForecast({
   resolvedAddress: weatherResp.resolvedAddress,
   currentDay: new WeatherDay(weatherResp.days[0]),
-  next7days: weatherResp.days.slice(1),
+  next7days: weatherResp.days
+    .slice(1)
+    .map((dayJSON) => new WeatherDay(dayJSON)),
 });
 // eslint-disable-next-line no-console
 console.log(
-  `Name: ${newForecast.locationName} \n Today: ${newForecast.currentDay.date} \n Next Week: ${newForecast.next7days}`,
+  `Name: ${newForecast.locationName} \n Today: ${newForecast.currentDay.toString()} \n Next Week: \n${newForecast.next7days.map((day) => day.toString()).join("\n")}`,
 );
