@@ -3,7 +3,6 @@ import { getLocationSearch, weekWeatherByLocation } from "./weatherByLocation";
 import LocationForecast from "./LocationForecast";
 import WeatherDay from "./WeatherDay";
 
-// const location = await searchForLocation();
 async function createWeatherForecast(location) {
   const weatherResp = await weekWeatherByLocation(location);
   const newForecast = new LocationForecast({
@@ -15,6 +14,25 @@ async function createWeatherForecast(location) {
   });
   return newForecast;
 }
+
+function createTodayDisplay(forecast) {
+  const weatherDay = forecast.currentDay;
+  const newTodayDisplay = document.createElement("div");
+  newTodayDisplay.className = "today-weather-wrapper";
+  newTodayDisplay.innerHTML = `  
+  <div class="city-name">${forecast.locationName}</div>
+  <div class="weather-desc">${weatherDay.description}</div>
+  <div class="weather-date">${weatherDay.date}</div>
+  <div class="weather-icon">${weatherDay.icon} 
+  </div>
+  <div class="temp-wrapper">
+      <div class="actual-temp">${weatherDay.temp}</div>
+      <div class="feelslike-temp">${weatherDay.feelslike}</div>
+  </div>
+</div>`;
+  document.querySelector("body").appendChild(newTodayDisplay);
+}
+
 const locationSearchSubmit = document.querySelector("#location-form-submit");
 const searchStatusLabel = document.querySelector("#search-status");
 locationSearchSubmit.addEventListener("click", (e) => {
@@ -22,15 +40,12 @@ locationSearchSubmit.addEventListener("click", (e) => {
   const location = getLocationSearch();
   createWeatherForecast(location)
     .then((newForecast) => {
-      console.log(
-        `Name: ${newForecast.locationName} \n Today: ${newForecast.currentDay.toString()} \n Next Week: \n${newForecast.next7days.map((day) => day.toString()).join("\n")}`,
-      );
       searchStatusLabel.textContent = "FOUND!";
+      createTodayDisplay(newForecast);
+      return newForecast;
     })
     .catch((err) => {
       searchStatusLabel.textContent = err;
     });
   searchStatusLabel.textContent = "Searching...";
 });
-
-// eslint-disable-next-line no-console
