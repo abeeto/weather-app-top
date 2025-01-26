@@ -1,4 +1,4 @@
-class LocationForecast {
+export default class LocationForecast {
   #locationName;
 
   #currentDay;
@@ -23,5 +23,3 @@ class LocationForecast {
     return this.#locationName;
   }
 }
-
-export default LocationForecast;
